@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+$node-size: 1.5rem;
+$clr-bg: #222831;
+$clr-border: #222831;
+$clr-node: #393e46;
+$clr-node-hover: #00adb5;
+$clr-text: #00adb5;
+$ff-main: "Poppins", sans-serif;
+
+@mixin flex($justify, $align, $direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#root {
+  background-color: $clr-bg;
+  width: 100%;
+  height: 100vh;
+  @include flex(center, center);
+}
+
+// BOARD
+.board {
+  font-family: $ff-main;
+  h1 {
+    color: $clr-text;
+    text-align: center;
+  }
+}
+
+// GAME CONSOLE
+.game-console {
+  @include flex(space-between, center);
+  padding: 1rem;
+
+  div {
+    color: $clr-text;
+    width: 6ch;
+  }
+
+  .mine-left {
+    text-align: left;
+  }
+
+  .time {
+    text-align: right;
+  }
+
+  .btn-game {
+    background: none;
+    color: $clr-text;
+    outline-color: $clr-text;
+    font-family: $ff-main;
+    border: 1px solid $clr-text;
+  }
+}
+
+// GAME AREA
+.nodes-container {
+  display: grid;
+  grid-template-columns: repeat(20, $node-size);
+  width: fit-content;
+  padding: 0;
+  border: 1px solid $clr-border;
+
+  li {
+    list-style: none;
+
+    .node {
+      background-color: $clr-node;
+      border: 1px solid $clr-border;
+      width: $node-size;
+      height: $node-size;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: $clr-node-hover;
+      }
+    }
+  }
+}
