@@ -5,7 +5,7 @@ class MineNode extends React.Component {
     super(props);
 
     this.state = {
-      status: "close",
+      status: "closed",
       value: this.props.val,
       display_value: "",
     };
@@ -15,10 +15,10 @@ class MineNode extends React.Component {
   }
 
   handleLeftClick(e) {
-    console.log(e.button);
-    if (this.state.status === "close") {
+    console.log(e.target.id);
+    if (this.state.status === "closed") {
       this.setState({
-        status: "open",
+        status: "opened",
         display_value: this.state.value,
       });
     }
@@ -26,9 +26,16 @@ class MineNode extends React.Component {
 
   handleRightClick(e) {
     e.preventDefault();
-    if (this.state.status === "close") {
+    const status = this.state.status;
+    if (status === "closed") {
       this.setState({
+        status: "protected",
         display_value: "O",
+      });
+    } else if (status === "protected") {
+      this.setState({
+        status: "closed",
+        display_value: "",
       });
     }
   }

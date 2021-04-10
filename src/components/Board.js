@@ -5,11 +5,13 @@ import GameArea from "./GameArea";
 
 class Board extends React.Component {
   render() {
+    console.log(this.props.gameData);
+    const gameData = this.props.gameData;
     return (
       <div id="board" className="board">
         <h1>MINESWEEPER</h1>
         <GameConsole />
-        <GameArea />
+        <GameArea minesMap={gameData.minesMap} />
       </div>
     );
   }
