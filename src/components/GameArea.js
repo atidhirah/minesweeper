@@ -6,12 +6,10 @@ class GameArea extends React.Component {
   render() {
     console.log(this.props.minesMap);
     const minesMap = this.props.minesMap;
-    const nodes = Array(400)
-      .fill(0)
-      .map((_, i) => {
-        let val = minesMap.indexOf(i) !== -1 ? "X" : "";
-        return <MineNode key={i.toString()} id={i.toString()} val={val} />;
-      });
+    const nodes = minesMap.map((value, i) => {
+      value = value === 0 ? "" : value;
+      return <MineNode key={i.toString()} id={i.toString()} val={value} />;
+    });
 
     return (
       <div id="game-area" className="game-area">

@@ -41,11 +41,14 @@ class MineNode extends React.Component {
   }
 
   render() {
+    let className = "node";
+    if (this.state.status === "opened") className += " opened-node";
+
     return (
       <li>
         <div
           id={this.props.id}
-          className="node"
+          className={className}
           onClick={this.handleLeftClick}
           onContextMenu={this.handleRightClick}
         >

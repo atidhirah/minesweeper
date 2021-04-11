@@ -82,10 +82,15 @@ $ff-main: "Poppins", sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
 
       &:hover {
         background-color: $clr-node-hover;
       }
     }
   }
+}
+
+.opened-node {
+  background-color: $clr-node-hover !important;
 }

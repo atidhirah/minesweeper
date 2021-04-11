@@ -18,7 +18,7 @@ const defaultState = {
   rows: 20,
   columns: 20,
   difficulty: "easy",
-  mines: 30,
+  mines: 60,
   get minesMap() {
     return utils.createMineMap(this.rows, this.columns, this.mines);
   },
@@ -34,11 +34,11 @@ const minesweeperReducer = (state = defaultState, action) => {
     case DIFFICULTY:
       newState.difficulty = action.str;
       if (action.str === "easy") {
-        newState.mines = 30;
+        newState.mines = 60;
       } else if (action.str === "medium") {
-        newState.mines = 50;
+        newState.mines = 80;
       } else {
-        newState.mines = 70;
+        newState.mines = 100;
       }
       break;
     default:
