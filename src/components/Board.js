@@ -11,7 +11,11 @@ class Board extends React.Component {
       <div id="board" className="board">
         <h1>MINESWEEPER</h1>
         <GameConsole />
-        <GameArea minesMap={gameData.minesMap} />
+        <GameArea
+          rows={gameData.rows}
+          columns={gameData.columns}
+          minesMap={gameData.minesMap}
+        />
       </div>
     );
   }

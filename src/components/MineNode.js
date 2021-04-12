@@ -1,4 +1,5 @@
 import React from "react";
+import { getNodesAround } from "../utils";
 
 class MineNode extends React.Component {
   constructor(props) {
@@ -15,12 +16,28 @@ class MineNode extends React.Component {
   }
 
   handleLeftClick(e) {
-    console.log(e.target.id);
     if (this.state.status === "closed") {
-      this.setState({
-        status: "opened",
-        display_value: this.state.value,
-      });
+      this.setState(
+        {
+          status: "opened",
+          display_value: this.state.value,
+        },
+        () => {
+          if (this.state.value === "") {
+            const id = e.target.id;
+            const nodesAround = getNodesAround(
+              parseInt(id),
+              this.props.rows,
+              this.props.columns
+            );
+            nodesAround.forEach((node) => {
+              if (node !== -1) {
+                document.getElementById(node.toString()).click();
+              }
+            });
+          }
+        }
+      );
     }
   }
 
@@ -42,7 +59,13 @@ class MineNode extends React.Component {
 
   render() {
     let className = "node";
-    if (this.state.status === "opened") className += " opened-node";
+    if (this.state.status === "opened") {
+      if (this.state.value === "X") {
+        className += " opened-bomb";
+      } else {
+        className += " opened-node";
+      }
+    }
 
     return (
       <li>

@@ -3,7 +3,7 @@ import "./styles/app.scss";
 import React from "react";
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
-import * as utils from "./utils";
+import { createMineMap } from "./utils";
 
 import Board from "./components/Board";
 
@@ -20,7 +20,7 @@ const defaultState = {
   difficulty: "easy",
   mines: 60,
   get minesMap() {
-    return utils.createMineMap(this.rows, this.columns, this.mines);
+    return createMineMap(this.rows, this.columns, this.mines);
   },
 };
 
