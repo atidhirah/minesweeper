@@ -37,6 +37,11 @@ export const getNodesAround = (pos, r, c) => {
   return arr;
 };
 
+/* 
+  This function will create an array of objects that represent
+  each node that exist ()
+
+*/
 export const createMineMap = (rows, columns, mines) => {
   const nodesCount = rows * columns;
 
@@ -53,6 +58,7 @@ export const createMineMap = (rows, columns, mines) => {
   };
 
   const maps = Array(nodesCount).fill(0);
+
   minesPos.forEach((minePos) => {
     maps[minePos] = "X";
 

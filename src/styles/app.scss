@@ -3,7 +3,8 @@
 $node-size: 1.5rem;
 $clr-bg: #222831;
 $clr-border: #222831;
-$clr-bomb: red;
+$clr-bomb: #ff2e63;
+$clr-checked: #f67280;
 $clr-node: #393e46;
 $clr-node-hover: #00adb5;
 $clr-text: #00adb5;
@@ -98,4 +99,8 @@ $ff-main: "Poppins", sans-serif;
 
 .opened-node {
   background-color: $clr-node-hover !important;
+}
+
+.checked-node {
+  background-color: $clr-checked !important;
 }

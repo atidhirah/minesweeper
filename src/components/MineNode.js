@@ -5,66 +5,59 @@ class MineNode extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      status: "closed",
-      value: this.props.val,
-      display_value: "",
-    };
-
+    this.openNodesAround = this.openNodesAround.bind(this);
     this.handleLeftClick = this.handleLeftClick.bind(this);
     this.handleRightClick = this.handleRightClick.bind(this);
   }
 
+  openNodesAround() {
+    const id = parseInt(this.props.id);
+    const nodesAround = getNodesAround(id, this.props.rows, this.props.columns);
+    nodesAround.forEach((node) => {
+      if (node !== -1) {
+        this.props.handleStatus(node, 1);
+      }
+    });
+  }
+
   handleLeftClick(e) {
-    if (this.state.status === "closed") {
-      this.setState(
-        {
-          status: "opened",
-          display_value: this.state.value,
-        },
-        () => {
-          if (this.state.value === "") {
-            const id = e.target.id;
-            const nodesAround = getNodesAround(
-              parseInt(id),
-              this.props.rows,
-              this.props.columns
-            );
-            nodesAround.forEach((node) => {
-              if (node !== -1) {
-                document.getElementById(node.toString()).click();
-              }
-            });
-          }
-        }
-      );
+    const id = parseInt(e.target.id);
+    if (this.props.status === 0) {
+      this.props.handleStatus(id, 1);
+
+      if (this.props.val === "") {
+        this.openNodesAround();
+      }
     }
   }
 
   handleRightClick(e) {
     e.preventDefault();
-    const status = this.state.status;
-    if (status === "closed") {
-      this.setState({
-        status: "protected",
-        display_value: "O",
-      });
-    } else if (status === "protected") {
-      this.setState({
-        status: "closed",
-        display_value: "",
-      });
+    const id = parseInt(e.target.id);
+    const status = this.props.status;
+    if (status === 0) {
+      this.props.handleStatus(id, 2);
+    } else if (status === 2) {
+      this.props.handleStatus(id, 0);
     }
   }
 
   render() {
     let className = "node";
-    if (this.state.status === "opened") {
-      if (this.state.value === "X") {
+    let display = "";
+    if (this.props.status === 1) {
+      if (this.props.val === "X") {
         className += " opened-bomb";
+        display = "X";
       } else {
         className += " opened-node";
+        display = this.props.val;
       }
+    }
+
+    if (this.props.status === 2) {
+      className += " checked-node";
+      display = "O";
     }
 
     return (
@@ -75,10 +68,23 @@ class MineNode extends React.Component {
           onClick={this.handleLeftClick}
           onContextMenu={this.handleRightClick}
         >
-          {this.state.display_value}
+          {display}
         </div>
       </li>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.status !== this.props.status) {
+      return true;
+    }
+    return false;
+  }
+
+  componentDidUpdate() {
+    if (this.props.val === "") {
+      this.openNodesAround();
+    }
   }
 }
 
