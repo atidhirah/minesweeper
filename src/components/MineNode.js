@@ -90,7 +90,7 @@ class MineNode extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.val === "") {
+    if (this.props.val === "" && this.props.status === 1) {
       this.openNodesAround();
     }
   }

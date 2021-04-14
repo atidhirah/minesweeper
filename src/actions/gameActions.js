@@ -1,6 +1,5 @@
 export const GAME = "GAME";
 export const DIFFICULTY = "DIFFICULTY";
-
 export const NODE_STATUS = "NODE_STATUS";
 
 export const gameAction = (bool) => ({ type: GAME, bool });

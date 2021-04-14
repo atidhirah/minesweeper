@@ -69,6 +69,5 @@ export const createMineMap = (rows, columns, mines) => {
       }
     });
   });
-  console.log(maps);
   return maps;
 };

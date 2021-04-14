@@ -6,7 +6,7 @@ class GameConsole extends React.Component {
       <div id="game-console" className="game-console">
         <div>
           <p id="mine-left" className="mine-left">
-            99
+            {this.props.mines}
           </p>
         </div>
         <button id="btn-game" className="btn-game">
