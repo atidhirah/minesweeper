@@ -5,14 +5,14 @@ import MineNode from "./MineNode";
 class GameArea extends React.Component {
   render() {
     const nodes = this.props.nodesMap.map((value, i) => {
-      value = value === 0 ? "" : value;
+      let val = value === 0 ? "" : value;
       return (
         <MineNode
           key={i.toString()}
           id={i.toString()}
           rows={this.props.rows}
           columns={this.props.columns}
-          val={value}
+          val={val}
           status={this.props.nodesStatus[i]}
           handleStatus={this.props.handleNodeStatus}
         />

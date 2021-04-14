@@ -1,6 +1,13 @@
 import React from "react";
 import { getNodesAround } from "../utils";
 
+/*
+  This node component have 3 status that represent node state
+  0 : Closed node, means it not yet opened or checked
+  1 : Opened node, node will opened after left clicking on a node
+  2 : Protected node, on this status node is still closed but cannot be opened
+      User need to right click on a node to protect/unprotect node.
+*/
 class MineNode extends React.Component {
   constructor(props) {
     super(props);
@@ -21,8 +28,8 @@ class MineNode extends React.Component {
   }
 
   handleLeftClick(e) {
-    const id = parseInt(e.target.id);
     if (this.props.status === 0) {
+      const id = parseInt(e.target.id);
       this.props.handleStatus(id, 1);
 
       if (this.props.val === "") {
@@ -43,10 +50,11 @@ class MineNode extends React.Component {
   }
 
   render() {
-    let className = "node";
-    let display = "";
-    if (this.props.status === 1) {
-      if (this.props.val === "X") {
+    const [status, val] = [this.props.status, this.props.val];
+    let [className, display] = ["node", ""];
+
+    if (status === 1) {
+      if (val === "X") {
         className += " opened-bomb";
         display = "X";
       } else {
@@ -55,7 +63,7 @@ class MineNode extends React.Component {
       }
     }
 
-    if (this.props.status === 2) {
+    if (status === 2) {
       className += " checked-node";
       display = "O";
     }

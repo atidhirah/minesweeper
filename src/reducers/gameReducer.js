@@ -7,37 +7,27 @@ const defaultState = {
   columns: 20,
   difficulty: "easy",
   mines: 60,
-  get nodesMap() {
-    return createMineMap(this.rows, this.columns, this.mines);
-  },
-  get nodesStatus() {
-    return Array(this.rows * this.columns).fill(0);
-  },
 };
 
 export const minesweeperReducer = (state = defaultState, action) => {
-  let newState = { ...state };
-
   switch (action.type) {
     case GAME:
-      newState.gameStatus = action.bool;
-      break;
+      return { ...state, gameStatus: action.bool };
     case DIFFICULTY:
-      newState.difficulty = action.str;
-      if (action.str === "easy") {
-        newState.mines = 60;
-      } else if (action.str === "medium") {
-        newState.mines = 80;
-      } else {
-        newState.mines = 100;
-      }
-      break;
-    case NODE_STATUS:
-      newState.nodesStatus[action.index] = action.status;
-      break;
-    default:
-      return state;
-  }
+      let mineCount =
+        action.str === "easy" ? 60 : action.str === "medium" ? 80 : 100;
 
-  return newState;
+      return { ...state, difficulty: action.str, mines: mineCount };
+
+    case NODE_STATUS:
+      const arr = state.nodesStatus;
+      arr[action.index] = action.status;
+      return { ...state, nodesStatus: arr };
+
+    default:
+      const nodesMap = createMineMap(state.rows, state.columns, state.mines);
+      const nodesStatus = Array(state.rows * state.columns).fill(0);
+
+      return { ...state, nodesMap: nodesMap, nodesStatus: nodesStatus };
+  }
 };
