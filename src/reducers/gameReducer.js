@@ -1,13 +1,14 @@
 import * as Action from "../actions/gameActions";
-import { createMineMap } from "../utils";
+import { createMineMap, checkGameWin } from "../utils";
 
 const defaultState = {
-  gameStatus: false,
+  gameStatus: "paused",
   time: 0,
   rows: 20,
   columns: 20,
   difficulty: "easy",
   mines: 60,
+  isGameWin: undefined,
 };
 
 export const minesweeperReducer = (state = defaultState, action) => {
@@ -29,6 +30,9 @@ export const minesweeperReducer = (state = defaultState, action) => {
       };
 
     case Action.NODE_STATUS:
+      // Start the game if user make a move on the node
+      let gameStatus = "started";
+
       const status = action.status;
       const index = action.index;
       let mines = state.mines;
@@ -40,22 +44,44 @@ export const minesweeperReducer = (state = defaultState, action) => {
       // Open all mine and game is losing.
       const arrStatus = state.nodesStatus;
       const arrNodes = state.nodesMap;
-      if (status === 1 && arrNodes[index] === "X") {
+      const nodeValue = arrNodes[index];
+      let winStatus = undefined;
+      if (status === 1 && nodeValue === "X") {
         arrNodes.forEach((val, i) => {
           if (val === "X") {
             arrStatus[i] = 1;
           }
         });
         mines = 0;
+        gameStatus = "stopped";
+        winStatus = false;
+      }
+      arrStatus[index] = status;
+
+      // Game is a win if user open all nodes that is not a mine
+      if (status === 1 && nodeValue !== "X") {
+        if (checkGameWin(arrNodes, arrStatus)) {
+          gameStatus = "stopped";
+          winStatus = true;
+        }
       }
 
-      arrStatus[index] = status;
-      return { ...state, mines: mines, nodesStatus: arrStatus };
+      return {
+        ...state,
+        gameStatus: gameStatus,
+        mines: mines,
+        nodesStatus: arrStatus,
+        isGameWin: winStatus,
+      };
 
     default:
       const nodesMap = createMineMap(state.rows, state.columns, state.mines);
       const nodesStatus = Array(state.rows * state.columns).fill(0);
 
-      return { ...state, nodesMap: nodesMap, nodesStatus: nodesStatus };
+      return {
+        ...state,
+        nodesMap: nodesMap,
+        nodesStatus: nodesStatus,
+      };
   }
 };

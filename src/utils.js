@@ -71,3 +71,12 @@ export const createMineMap = (rows, columns, mines) => {
   });
   return maps;
 };
+
+export const checkGameWin = (nodesMap, statusMap) => {
+  return statusMap.every((val, i) => {
+    if (nodesMap[i] !== "X") {
+      return val === 1;
+    }
+    return true;
+  });
+};

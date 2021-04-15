@@ -6,7 +6,7 @@ import GameArea from "./GameArea";
 class Board extends React.Component {
   render() {
     const gameData = this.props.gameData;
-    console.log(gameData.mines);
+    console.log(gameData.gameStatus);
     return (
       <div id="board" className="board">
         <h1>MINESWEEPER</h1>
