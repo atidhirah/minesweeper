@@ -28,24 +28,28 @@ class MineNode extends React.Component {
   }
 
   handleLeftClick(e) {
-    if (this.props.status === 0) {
-      const id = parseInt(e.target.id);
-      this.props.handleStatus(id, 1);
+    if (this.props.gameStatus !== "stopped") {
+      if (this.props.status === 0) {
+        const id = parseInt(e.target.id);
+        this.props.handleStatus(id, 1);
 
-      if (this.props.val === "") {
-        this.openNodesAround();
+        if (this.props.val === "") {
+          this.openNodesAround();
+        }
       }
     }
   }
 
   handleRightClick(e) {
-    e.preventDefault();
-    const id = parseInt(e.target.id);
-    const status = this.props.status;
-    if (status === 0) {
-      this.props.handleStatus(id, 2);
-    } else if (status === 2) {
-      this.props.handleStatus(id, 0);
+    if (this.props.gameStatus !== "stopped") {
+      e.preventDefault();
+      const id = parseInt(e.target.id);
+      const status = this.props.status;
+      if (status === 0) {
+        this.props.handleStatus(id, 2);
+      } else if (status === 2) {
+        this.props.handleStatus(id, 0);
+      }
     }
   }
 
@@ -90,6 +94,7 @@ class MineNode extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log("UPDATE NODE");
     if (this.props.val === "" && this.props.status === 1) {
       this.openNodesAround();
     }

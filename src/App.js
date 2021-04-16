@@ -12,6 +12,9 @@ const store = createStore(minesweeperReducer);
 const mapsStateToProps = (state) => ({ gameData: state });
 const mapsDispatchToProps = (dispatch) => {
   return {
+    updateGameTime: (second) => {
+      dispatch(Action.timeAction(second));
+    },
     updateGameStatus: (bool) => {
       dispatch(Action.gameAction(bool));
     },

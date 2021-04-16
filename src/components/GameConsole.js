@@ -1,5 +1,45 @@
 import React from "react";
 
+class Timer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.timer = 0;
+  }
+
+  render() {
+    return (
+      <div>
+        <p id="time" className="time">
+          {this.props.time}
+        </p>
+      </div>
+    );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.time !== this.props.time) {
+      return true;
+    }
+
+    if (nextProps.gameStatus !== this.props.gameStatus) {
+      return true;
+    }
+
+    return false;
+  }
+
+  componentDidUpdate() {
+    if (this.props.gameStatus === "started") {
+      this.timer = setTimeout(
+        () => this.props.handleTime(this.props.time + 1),
+        1000
+      );
+    } else {
+      clearTimeout(this.timer);
+    }
+  }
+}
+
 class GameConsole extends React.Component {
   render() {
     return (
@@ -12,11 +52,11 @@ class GameConsole extends React.Component {
         <button id="btn-game" className="btn-game">
           NEW GAME
         </button>
-        <div>
-          <p id="time" className="time">
-            00:00
-          </p>
-        </div>
+        <Timer
+          gameStatus={this.props.gameStatus}
+          time={this.props.time}
+          handleTime={this.props.handleTime}
+        />
       </div>
     );
   }

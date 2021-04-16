@@ -11,6 +11,7 @@ class GameArea extends React.Component {
         <MineNode
           key={i.toString()}
           id={i.toString()}
+          gameStatus={gameData.gameStatus}
           rows={gameData.rows}
           columns={gameData.columns}
           mines={gameData.mines}

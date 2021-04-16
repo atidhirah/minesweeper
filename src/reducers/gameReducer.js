@@ -16,6 +16,9 @@ export const minesweeperReducer = (state = defaultState, action) => {
     case Action.GAME:
       return { ...state, gameStatus: action.bool };
 
+    case Action.TIME:
+      return { ...state, time: action.second };
+
     case Action.DIFFICULTY:
       const mineCount =
         action.str === "easy" ? 60 : action.str === "medium" ? 80 : 100;
@@ -30,7 +33,8 @@ export const minesweeperReducer = (state = defaultState, action) => {
       };
 
     case Action.NODE_STATUS:
-      // Start the game if user make a move on the node
+      // The game timer will start when user clicking a node
+
       let gameStatus = "started";
 
       const status = action.status;
@@ -40,12 +44,13 @@ export const minesweeperReducer = (state = defaultState, action) => {
       // will increase(when unprotecting) / decrease(when protecting).
       mines = status === 0 ? mines + 1 : status === 2 ? mines - 1 : mines;
 
-      // If user opening a node(status = 1) and its value is "X"(mine)
-      // Open all mine and game is losing.
       const arrStatus = state.nodesStatus;
       const arrNodes = state.nodesMap;
       const nodeValue = arrNodes[index];
       let winStatus = undefined;
+
+      // If user opening a node(status = 1) and its value is "X"(mine)
+      // Open all mine and game is losing.
       if (status === 1 && nodeValue === "X") {
         arrNodes.forEach((val, i) => {
           if (val === "X") {
@@ -56,6 +61,8 @@ export const minesweeperReducer = (state = defaultState, action) => {
         gameStatus = "stopped";
         winStatus = false;
       }
+
+      // Updating node status
       arrStatus[index] = status;
 
       // Game is a win if user open all nodes that is not a mine
