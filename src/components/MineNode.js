@@ -94,7 +94,6 @@ class MineNode extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log("UPDATE NODE");
     if (this.props.val === "" && this.props.status === 1) {
       this.openNodesAround();
     }

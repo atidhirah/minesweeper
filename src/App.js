@@ -24,6 +24,9 @@ const mapsDispatchToProps = (dispatch) => {
     updateNodeStatus: (i, num) => {
       dispatch(Action.nodeStatusAction(i, num));
     },
+    resetGame: () => {
+      dispatch(Action.resetAction());
+    },
   };
 };
 

@@ -1,44 +1,6 @@
 import React from "react";
 
-class Timer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.timer = 0;
-  }
-
-  render() {
-    return (
-      <div>
-        <p id="time" className="time">
-          {this.props.time}
-        </p>
-      </div>
-    );
-  }
-
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.time !== this.props.time) {
-      return true;
-    }
-
-    if (nextProps.gameStatus !== this.props.gameStatus) {
-      return true;
-    }
-
-    return false;
-  }
-
-  componentDidUpdate() {
-    if (this.props.gameStatus === "started") {
-      this.timer = setTimeout(
-        () => this.props.handleTime(this.props.time + 1),
-        1000
-      );
-    } else {
-      clearTimeout(this.timer);
-    }
-  }
-}
+import GameTime from "./GameTime";
 
 class GameConsole extends React.Component {
   render() {
@@ -49,10 +11,14 @@ class GameConsole extends React.Component {
             {this.props.mines}
           </p>
         </div>
-        <button id="btn-game" className="btn-game">
+        <button
+          id="btn-game"
+          className="btn-game"
+          onClick={this.props.handleReset}
+        >
           NEW GAME
         </button>
-        <Timer
+        <GameTime
           gameStatus={this.props.gameStatus}
           time={this.props.time}
           handleTime={this.props.handleTime}

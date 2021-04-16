@@ -81,12 +81,23 @@ export const minesweeperReducer = (state = defaultState, action) => {
         isGameWin: winStatus,
       };
 
+    case Action.RESET:
     default:
-      const nodesMap = createMineMap(state.rows, state.columns, state.mines);
+      const resetMines =
+        state.difficulty === "easy"
+          ? 60
+          : state.difficulty === "medium"
+          ? 80
+          : 100;
+      const nodesMap = createMineMap(state.rows, state.columns, resetMines);
       const nodesStatus = Array(state.rows * state.columns).fill(0);
 
       return {
         ...state,
+        gameStatus: "paused",
+        time: 0,
+        mines: resetMines,
+        isGameWin: undefined,
         nodesMap: nodesMap,
         nodesStatus: nodesStatus,
       };

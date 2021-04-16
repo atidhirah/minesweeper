@@ -14,6 +14,7 @@ class Board extends React.Component {
           time={gameData.time}
           mines={gameData.mines}
           handleTime={this.props.updateGameTime}
+          handleReset={this.props.resetGame}
         />
         <GameArea
           gameData={gameData}
