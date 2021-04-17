@@ -12,6 +12,7 @@ import { faBomb, faFlag } from "@fortawesome/free-solid-svg-icons";
       User need to right click on a node to protect/unprotect node.
 */
 class MineNode extends React.Component {
+  // Open nodes around this node
   openNodesAround() {
     const id = parseInt(this.props.id);
     const nodesAround = getNodesAround(id, this.props.rows, this.props.columns);
@@ -22,6 +23,7 @@ class MineNode extends React.Component {
     });
   }
 
+  // Open this node and show its value
   openNode(e) {
     if (this.props.gameStatus !== "stopped") {
       const id = parseInt(e.target.id);
@@ -33,14 +35,16 @@ class MineNode extends React.Component {
     }
   }
 
-  checkNode(e) {
+  // Protect this node so it cannot be opened
+  protectNode(e) {
     e.preventDefault();
     if (this.props.gameStatus !== "stopped" && this.status !== 1) {
       this.props.handleStatus(this.props.id, 2);
     }
   }
 
-  unCheckNode(e) {
+  // Unprotect this node so it can be opened
+  unprotectNode(e) {
     e.preventDefault();
     if (this.props.gameStatus !== "stopped") {
       this.props.handleStatus(this.props.id, 0);
@@ -50,17 +54,23 @@ class MineNode extends React.Component {
   render() {
     const [status, val] = [this.props.status, this.props.val];
 
+    // Render Protected node
     if (status === 2) return this.renderFlag();
+
+    // Render opened node that its value is a bomb
     if (status === 1 && val === "X") return this.renderBomb();
+
+    // Render opened node that is not a bomb
     if (status === 1) return this.renderOpenedNode();
 
+    // Render unopened node
     return (
       <li>
         <div
           id={this.props.id}
           className="node"
           onClick={(e) => this.openNode(e)}
-          onContextMenu={(e) => this.checkNode(e)}
+          onContextMenu={(e) => this.protectNode(e)}
         ></div>
       </li>
     );
@@ -100,7 +110,7 @@ class MineNode extends React.Component {
         <div
           id={this.props.id}
           className="node checked-node"
-          onContextMenu={(e) => this.unCheckNode(e)}
+          onContextMenu={(e) => this.unProtectNode(e)}
         >
           <FontAwesomeIcon icon={faFlag} />
         </div>
@@ -108,6 +118,7 @@ class MineNode extends React.Component {
     );
   }
 
+  // Just update this component if its status is changed
   shouldComponentUpdate(nextProps) {
     if (nextProps.status !== this.props.status) {
       return true;
@@ -115,6 +126,8 @@ class MineNode extends React.Component {
     return false;
   }
 
+  // If this node is opened and its value is empty string
+  // then open nodes around this node too
   componentDidUpdate() {
     if (this.props.val === "" && this.props.status === 1) {
       this.openNodesAround();
