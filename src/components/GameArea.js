@@ -4,6 +4,7 @@ import MineNode from "./MineNode";
 
 class GameArea extends React.Component {
   render() {
+    // Make an array of Node component
     const gameData = this.props.gameData;
     const nodes = gameData.nodesMap.map((value, i) => {
       let val = value === 0 ? "" : value;
@@ -22,9 +23,15 @@ class GameArea extends React.Component {
       );
     });
 
+    // Add grid display style base on game columns
+    const grid = {
+      display: "grid",
+      gridTemplateColumns: `repeat(${gameData.columns}, 1.5rem)`,
+    };
+
     return (
       <div id="game-area" className="game-area">
-        <ul id="nodes" className="nodes-container">
+        <ul id="nodes" className="nodes-container" style={grid}>
           {nodes}
         </ul>
       </div>

@@ -67,8 +67,8 @@ $ff-main: "Poppins", sans-serif;
 
 // GAME AREA
 .nodes-container {
-  display: grid;
-  grid-template-columns: repeat(20, $node-size);
+  // display: grid;
+  // grid-template-columns: repeat(20, $node-size);
   width: fit-content;
   padding: 0;
   border: 1px solid $clr-border;
@@ -95,6 +95,7 @@ $ff-main: "Poppins", sans-serif;
 
 .opened-bomb {
   background-color: $clr-bomb !important;
+  font-size: 0.8rem !important;
 }
 
 .opened-node {
@@ -103,4 +104,6 @@ $ff-main: "Poppins", sans-serif;
 
 .checked-node {
   background-color: $clr-checked !important;
+  color: rgb(253, 220, 220) !important;
+  font-size: 0.8rem !important;
 }

@@ -1,5 +1,4 @@
 import React from "react";
-
 import GameTime from "./GameTime";
 
 class GameConsole extends React.Component {

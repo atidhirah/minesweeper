@@ -1,6 +1,9 @@
 import React from "react";
 import { getNodesAround } from "../utils";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBomb, faFlag } from "@fortawesome/free-solid-svg-icons";
+
 /*
   This node component have 3 status that represent node state
   0 : Closed node, means it not yet opened or checked
@@ -9,14 +12,6 @@ import { getNodesAround } from "../utils";
       User need to right click on a node to protect/unprotect node.
 */
 class MineNode extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.openNodesAround = this.openNodesAround.bind(this);
-    this.handleLeftClick = this.handleLeftClick.bind(this);
-    this.handleRightClick = this.handleRightClick.bind(this);
-  }
-
   openNodesAround() {
     const id = parseInt(this.props.id);
     const nodesAround = getNodesAround(id, this.props.rows, this.props.columns);
@@ -27,60 +22,87 @@ class MineNode extends React.Component {
     });
   }
 
-  handleLeftClick(e) {
+  openNode(e) {
     if (this.props.gameStatus !== "stopped") {
-      if (this.props.status === 0) {
-        const id = parseInt(e.target.id);
-        this.props.handleStatus(id, 1);
+      const id = parseInt(e.target.id);
+      this.props.handleStatus(id, 1);
 
-        if (this.props.val === "") {
-          this.openNodesAround();
-        }
+      if (this.props.val === "") {
+        this.openNodesAround();
       }
     }
   }
 
-  handleRightClick(e) {
+  checkNode(e) {
+    e.preventDefault();
+    if (this.props.gameStatus !== "stopped" && this.status !== 1) {
+      this.props.handleStatus(this.props.id, 2);
+    }
+  }
+
+  unCheckNode(e) {
+    e.preventDefault();
     if (this.props.gameStatus !== "stopped") {
-      e.preventDefault();
-      const id = parseInt(e.target.id);
-      const status = this.props.status;
-      if (status === 0) {
-        this.props.handleStatus(id, 2);
-      } else if (status === 2) {
-        this.props.handleStatus(id, 0);
-      }
+      this.props.handleStatus(this.props.id, 0);
     }
   }
 
   render() {
     const [status, val] = [this.props.status, this.props.val];
-    let [className, display] = ["node", ""];
 
-    if (status === 1) {
-      if (val === "X") {
-        className += " opened-bomb";
-        display = "X";
-      } else {
-        className += " opened-node";
-        display = this.props.val;
-      }
-    }
-
-    if (status === 2) {
-      className += " checked-node";
-      display = "O";
-    }
+    if (status === 2) return this.renderFlag();
+    if (status === 1 && val === "X") return this.renderBomb();
+    if (status === 1) return this.renderOpenedNode();
 
     return (
       <li>
         <div
           id={this.props.id}
-          className={className}
-          onClick={this.handleLeftClick}
-          onContextMenu={this.handleRightClick}
+          className="node"
+          onClick={(e) => this.openNode(e)}
+          onContextMenu={(e) => this.checkNode(e)}
+        ></div>
+      </li>
+    );
+  }
+
+  renderOpenedNode() {
+    return (
+      <li>
+        <div
+          id={this.props.id}
+          className="node opened-node"
+          onContextMenu={(e) => e.preventDefault()}
         >
-          {display}
+          {this.props.val}
+        </div>
+      </li>
+    );
+  }
+
+  renderBomb() {
+    return (
+      <li>
+        <div
+          id={this.props.id}
+          className="node opened-bomb"
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <FontAwesomeIcon icon={faBomb} />
+        </div>
+      </li>
+    );
+  }
+
+  renderFlag() {
+    return (
+      <li>
+        <div
+          id={this.props.id}
+          className="node checked-node"
+          onContextMenu={(e) => this.unCheckNode(e)}
+        >
+          <FontAwesomeIcon icon={faFlag} />
         </div>
       </li>
     );
