@@ -1,8 +1,32 @@
 import React from "react";
 import GameTime from "./GameTime";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMehBlank,
+  faSmile,
+  faDizzy,
+  faGrinStars,
+} from "@fortawesome/free-solid-svg-icons";
+
 class GameConsole extends React.Component {
   render() {
+    let icon;
+    switch (this.props.isGameWin) {
+      case true:
+        icon = <FontAwesomeIcon icon={faGrinStars} />;
+        break;
+      case false:
+        icon = <FontAwesomeIcon icon={faDizzy} />;
+        break;
+      default:
+        icon = <FontAwesomeIcon icon={faSmile} />;
+    }
+
+    if (this.props.gameStatus === "paused") {
+      icon = <FontAwesomeIcon icon={faMehBlank} />;
+    }
+
     return (
       <div id="game-console" className="game-console">
         <div>
@@ -15,7 +39,7 @@ class GameConsole extends React.Component {
           className="btn-game"
           onClick={this.props.handleReset}
         >
-          NEW GAME
+          {icon}
         </button>
         <GameTime
           gameStatus={this.props.gameStatus}

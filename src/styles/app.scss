@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap");
 
 $node-size: 1.5rem;
 $clr-bg: #222831;
@@ -8,7 +8,7 @@ $clr-checked: #f67280;
 $clr-node: #393e46;
 $clr-node-hover: #00adb5;
 $clr-text: #00adb5;
-$ff-main: "Poppins", sans-serif;
+$ff-main: "Orbitron", sans-serif;
 
 @mixin flex($justify, $align, $direction: row) {
   display: flex;
@@ -29,46 +29,59 @@ $ff-main: "Poppins", sans-serif;
   @include flex(center, center);
 }
 
+.border {
+  border: 3px solid rgb(109, 109, 109);
+  border-right-color: rgb(32, 32, 32);
+  border-bottom-color: rgb(32, 32, 32);
+}
+
 // BOARD
 .board {
+  @extend .border;
   font-family: $ff-main;
-  h1 {
-    color: $clr-text;
-    text-align: center;
-  }
+  padding: 0 0.3rem 0.2rem;
 }
 
 // GAME CONSOLE
 .game-console {
   @include flex(space-between, center);
-  padding: 1rem;
+  padding: 1rem 0.2rem;
+  position: relative;
 
   div {
+    @extend .border;
     color: $clr-text;
-    width: 6ch;
+    font-size: 0.8rem;
+    border-width: 2px;
+    padding: 0.1rem 0;
   }
 
   .mine-left {
-    text-align: left;
+    width: 3ch;
+    text-align: center;
   }
 
   .time {
-    text-align: right;
+    width: 6ch;
+    text-align: center;
+    padding: 0 0.2em;
   }
 
   .btn-game {
+    outline: none;
     background: none;
     color: $clr-text;
-    outline-color: $clr-text;
-    font-family: $ff-main;
-    border: 1px solid $clr-text;
+    font-size: 1.1rem;
+    padding: 0.1em 0.3em;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
 // GAME AREA
 .nodes-container {
-  // display: grid;
-  // grid-template-columns: repeat(20, $node-size);
   width: fit-content;
   padding: 0;
   border: 1px solid $clr-border;
@@ -77,8 +90,9 @@ $ff-main: "Poppins", sans-serif;
     list-style: none;
 
     .node {
+      @extend .border;
+      border-width: 2px;
       background-color: $clr-node;
-      border: 1px solid $clr-border;
       width: $node-size;
       height: $node-size;
       display: flex;
@@ -93,13 +107,21 @@ $ff-main: "Poppins", sans-serif;
   }
 }
 
+.opened-bomb,
+.opened-node,
+.checked-node {
+  border: 1px solid $clr-border !important;
+}
+
 .opened-bomb {
   background-color: $clr-bomb !important;
   font-size: 0.8rem !important;
+  cursor: default !important;
 }
 
 .opened-node {
   background-color: $clr-node-hover !important;
+  cursor: default !important;
 }
 
 .checked-node {

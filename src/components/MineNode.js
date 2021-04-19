@@ -110,7 +110,7 @@ class MineNode extends React.Component {
         <div
           id={this.props.id}
           className="node checked-node"
-          onContextMenu={(e) => this.unProtectNode(e)}
+          onContextMenu={(e) => this.unprotectNode(e)}
         >
           <FontAwesomeIcon icon={faFlag} />
         </div>
@@ -118,7 +118,7 @@ class MineNode extends React.Component {
     );
   }
 
-  // Just update this component if its status is changed
+  // Update this component if its status is changed
   shouldComponentUpdate(nextProps) {
     if (nextProps.status !== this.props.status) {
       return true;
@@ -127,7 +127,7 @@ class MineNode extends React.Component {
   }
 
   // If this node is opened and its value is empty string
-  // then open nodes around this node too
+  // then open nodes around this node.
   componentDidUpdate() {
     if (this.props.val === "" && this.props.status === 1) {
       this.openNodesAround();

@@ -8,9 +8,9 @@ class Board extends React.Component {
     const gameData = this.props.gameData;
     return (
       <div id="board" className="board">
-        <h1>MINESWEEPER</h1>
         <GameConsole
           gameStatus={gameData.gameStatus}
+          isGameWin={gameData.isGameWin}
           time={gameData.time}
           mines={gameData.mines}
           handleTime={this.props.updateGameTime}
